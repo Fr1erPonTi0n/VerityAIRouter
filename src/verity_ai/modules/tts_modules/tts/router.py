@@ -12,6 +12,7 @@ router = APIRouter()
 
 class TTSRequest(BaseModel):
     input: str
+    model: str | None = None
     voice: str = DEFAULT_TTS_VOICE
     response_format: str = "wav"
 
@@ -22,12 +23,14 @@ async def generate_audio(req: TTSRequest):
     if not text:
         raise HTTPException(status_code=400, detail="Текст не должен быть пустым.")
 
-    found = find_voice(req.voice)
+    voice_name = req.model or req.voice
+    found = find_voice(voice_name)
+    
     if found is None:
         raise HTTPException(
             status_code=404,
             detail=(
-                f"Голос '{req.voice}' не найден. "
+                f"Голос '{voice_name}' не найден. "
                 f"Доступны: {', '.join(available_voices())}"
             ),
         )
