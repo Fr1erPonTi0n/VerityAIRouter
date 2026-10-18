@@ -16,8 +16,14 @@ FIELDS = {
     "REQUEST_TIMEOUT": "300",
     "DEFAULT_MODEL": "deepseek-flash",
     "DEFAULT_TTS_VOICE": "irina",
+    "STT_MODEL": "small",
+    "STT_DEVICE": "auto",
+    "STT_COMPUTE_TYPE": "int8",
+    "STT_LANGUAGE": "",
+    "STT_BEAM_SIZE": "5",
     "TTS_MODEL_DIR": "src/verity_ai/data/tts",
     "LLM_MODEL_DIR": "src/verity_ai/data/llm",
+    "STT_MODEL_DIR": "src/verity_ai/data/stt",
     "TTS_API_URL": "",
     "TTS_API_KEY": "",
     "TTS_API_TIMEOUT": "30",
@@ -32,7 +38,17 @@ SECTIONS = (
     ("Ollama", ("OLLAMA_URL",)),
     ("HTTP-запросы", ("REQUEST_TIMEOUT",)),
     ("Модели по умолчанию", ("DEFAULT_MODEL", "DEFAULT_TTS_VOICE")),
-    ("Каталоги моделей", ("TTS_MODEL_DIR", "LLM_MODEL_DIR")),
+    (
+        "Распознавание речи",
+        (
+            "STT_MODEL",
+            "STT_DEVICE",
+            "STT_COMPUTE_TYPE",
+            "STT_LANGUAGE",
+            "STT_BEAM_SIZE",
+        ),
+    ),
+    ("Каталоги моделей", ("TTS_MODEL_DIR", "LLM_MODEL_DIR", "STT_MODEL_DIR")),
     (
         "Удалённый TTS",
         (

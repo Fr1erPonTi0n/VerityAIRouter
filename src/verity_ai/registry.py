@@ -5,10 +5,12 @@ from dataclasses import dataclass
 from fastapi import APIRouter
 
 from verity_ai.core.llm.provider import AIProvider
+from verity_ai.core.stt.provider import STTProvider
 from verity_ai.core.tts.voice import VoiceProvider
 
 MODULE_PACKAGES = (
     "verity_ai.modules.llm_modules",
+    "verity_ai.modules.stt_modules",
     "verity_ai.modules.tts_modules",
 )
 
@@ -21,6 +23,7 @@ class AIModule:
     kind: str
     router: APIRouter | None
     provider: AIProvider | None
+    stt_provider: STTProvider | None
     voice_provider: VoiceProvider | None
 
 
@@ -42,11 +45,13 @@ def discover_modules() -> list[AIModule]:
         module = importlib.import_module(module_name)
         router = getattr(module, "router", None)
         provider = getattr(module, "provider", None)
+        stt_provider = getattr(module, "stt_provider", None)
         voice_provider = getattr(module, "voice_provider", None)
 
         if (
             not isinstance(router, APIRouter)
             and not isinstance(provider, AIProvider)
+            and not isinstance(stt_provider, STTProvider)
             and not isinstance(voice_provider, VoiceProvider)
         ):
             continue
@@ -59,6 +64,9 @@ def discover_modules() -> list[AIModule]:
                 kind=getattr(module, "KIND", "other"),
                 router=router if isinstance(router, APIRouter) else None,
                 provider=provider if isinstance(provider, AIProvider) else None,
+                stt_provider=(
+                    stt_provider if isinstance(stt_provider, STTProvider) else None
+                ),
                 voice_provider=(
                     voice_provider
                     if isinstance(voice_provider, VoiceProvider)

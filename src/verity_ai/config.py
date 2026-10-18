@@ -31,6 +31,12 @@ REQUEST_TIMEOUT = float(_env("REQUEST_TIMEOUT", "300"))
 DEFAULT_MODEL = _env("DEFAULT_MODEL", "deepseek-flash")
 DEFAULT_TTS_VOICE = _env("DEFAULT_TTS_VOICE", "ruslan")
 
+STT_MODEL = _env("STT_MODEL", "small")
+STT_DEVICE = _env("STT_DEVICE", "auto")
+STT_COMPUTE_TYPE = _env("STT_COMPUTE_TYPE", "int8")
+STT_LANGUAGE = _env("STT_LANGUAGE", "")
+STT_BEAM_SIZE = int(_env("STT_BEAM_SIZE", "5"))
+
 TTS_API_URL = _env("TTS_API_URL", "")
 TTS_API_KEY = _env("TTS_API_KEY", "")
 TTS_API_TIMEOUT = float(_env("TTS_API_TIMEOUT", "30"))
@@ -50,4 +56,8 @@ TTS_MODEL_DIR = _env_path(
 LLM_MODEL_DIR = _env_path(
     "LLM_MODEL_DIR",
     ROOT_DIR / "src" / "verity_ai" / "data" / "llm",
+)
+STT_MODEL_DIR = _env_path(
+    "STT_MODEL_DIR",
+    ROOT_DIR / "src" / "verity_ai" / "data" / "stt",
 )

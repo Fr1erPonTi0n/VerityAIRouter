@@ -22,6 +22,7 @@ async def get_modules():
                 "kind": module.kind,
                 "router": module.router is not None,
                 "provider": module.provider is not None,
+                "stt_provider": module.stt_provider is not None,
                 "voice_provider": module.voice_provider is not None,
             }
             for module in MODULES

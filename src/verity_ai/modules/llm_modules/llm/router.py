@@ -6,6 +6,7 @@ from verity_ai.core.llm.providers import (
     find_provider,
     get_providers,
 )
+from verity_ai.core.stt.providers import available_stt_models
 
 router = APIRouter()
 
@@ -45,9 +46,12 @@ async def get_ollama_models():
 
 @router.get("/v1/models")
 async def get_models():
-    return {
-        "object": "list",
-        "data": [
-            model for provider in get_providers() for model in provider.models()
-        ],
-    }
+    data = [
+        model for provider in get_providers() for model in provider.models()
+    ]
+    data.extend(
+        {"id": model, "object": "model", "owned_by": "verity"}
+        for model in available_stt_models()
+    )
+
+    return {"object": "list", "data": data}
